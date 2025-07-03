@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d702cc70-db2f-44b2-8a75-7eb113146b92" name="Changes" comment="" />
+    <list default="true" id="d702cc70-db2f-44b2-8a75-7eb113146b92" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Include/CustomizableLogger.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Include/CustomizableLogger.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Main.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,6 +69,7 @@
       <updated>1751455205184</updated>
       <workItem from="1751455208531" duration="1144000" />
       <workItem from="1751456490991" duration="1001000" />
+      <workItem from="1751512281805" duration="51000" />
     </task>
     <servers />
   </component>

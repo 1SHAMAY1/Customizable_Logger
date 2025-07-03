@@ -65,4 +65,27 @@ private:
     bool passesFilter(const std::string& item, const std::vector<std::string>& filters);
     std::string toJsonLine(const std::string& ts, const std::string& level,
                            const std::string& category, const std::string& message);
+
+
+    // ----------- Logging Macros -----------
+
+	#define LOG_INFO(logger, category, message) \
+	logger.log(category, message, "INFO")
+
+	#define LOG_WARNING(logger, category, message) \
+	logger.log(category, message, "WARNING")
+
+	#define LOG_ERROR(logger, category, message) \
+	logger.log(category, message, "ERROR")
+
+	#define LOG_DEBUG(logger, category, message) \
+	logger.log(category, message, "DEBUG")
+
+	#define LOG_CRITICAL(logger, category, message) \
+	logger.log(category, message, "CRITICAL")
+
+    // For custom log level (e.g. "GAMEPLAY/AI")
+	#define LOG_CUSTOM(logger, category, message, level) \
+	logger.log(category, message, level)
+
 };

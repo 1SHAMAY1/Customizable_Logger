@@ -11,7 +11,7 @@ int main() {
     logger.registerLevel("UI/CLICK", "\033[35m");     // Magenta
 
     // ✅ Log the start of the program
-    logger.log("System", "Program started", "INFO");
+    LOG_INFO(logger, "System", "Program started");
 
     // --- Optional: Filter which logs are shown ---
     // logger.setFilterLevels({"WARNING", "CRITICAL", "GAMEPLAY/AI"});
@@ -29,7 +29,7 @@ int main() {
     // logger.log("System", "Segfault detected", "CRITICAL");             // Critical system alert
 
     // ✅ Log the end of the program
-    logger.log("System", "Program ended", "INFO");
+    LOG_INFO(logger, "System", "Program ended");
 
     return 0;
 }
