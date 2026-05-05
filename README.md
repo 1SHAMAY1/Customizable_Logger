@@ -24,17 +24,29 @@ A **lightweight, customizable C++ logging system** designed for console applicat
 ## 📁 Folder Structure
 
 Customizable_Logger/
+
 ├── Include/
+│   │
 │   └── CustomizableLogger.hpp       # Logger class header
+│
 ├── Source/
+│   │
 │   └── CustomizableLogger.cpp       # Logger class implementation
+│
 ├── main.cpp                         # Sample usage (entry point)
+│
 ├── bin/                             # Final .exe copied here
+│
 ├── Build/                           # Cleaned/rebuilt each run
+│
 ├── CMakeLists.txt                   # CMake build file
+│
 ├── build_and_run_logger.bat         # 🔁 One-click build & run
+│
 ├── log.json                         # (Generated log output file)
+│
 └── README.md                        # 📘 You're here!
+
 
 ---
 
