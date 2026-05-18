@@ -39,3 +39,18 @@
 
 # debug information files
 *.dwo
+
+# IDE and Project files
+.idea/
+*.suo
+*.user
+*.userossc
+*.sln
+*.vcxproj
+*.filters
+*.dir/
+
+# Build and log outputs
+Build/
+bin/
+log.json
