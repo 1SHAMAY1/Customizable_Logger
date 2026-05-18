@@ -3,19 +3,17 @@
 #include <vector>
 
 int main() {
-    // ✅ Initialize the logger with file output (writes to log.json)
+    // Initialize the logger with asynchronous JSON file sink enabled
     CustomizableLogger logger(true, "log.json");
 
-    // ✅ Register custom log levels with ANSI colors
-    // These will be used to color the logs in the console
-    // "\033[36m" = Cyan, "\033[35m" = Magenta
+    // Register custom log levels integrated with ANSI terminal styling
     logger.registerLevel("GAMEPLAY/AI", "\033[36m");  // Cyan
     logger.registerLevel("UI/CLICK", "\033[35m");     // Magenta
 
-    // ✅ Log the start of the program
+    // Record application initialization stage
     LOG_INFO(logger, "System", "Program started. Starting multi-threaded stress test...");
 
-    // ✅ Spawn multiple threads writing concurrently to demonstrate thread safety and async non-blocking execution
+    // Spin up concurrent worker threads to validate asynchronous and thread-safe operations under load
     std::vector<std::thread> threads;
     for (int i = 0; i < 4; ++i) {
         threads.emplace_back([&logger, i]() {
@@ -32,17 +30,17 @@ int main() {
         });
     }
 
-    // Wait for all caller threads to finish submitting their log requests
+    // Join caller threads once all submissions are dispatched
     for (auto& t : threads) {
         if (t.joinable()) {
             t.join();
         }
     }
 
-    // ✅ Log the end of the program
+    // Record conclusion of stress-testing sequence
     LOG_INFO(logger, "System", "All writer threads completed their log tasks. Flushing queue...");
 
-    // ✅ Block and wait for all logs to be written to console & file before exiting
+    // Block and synchronously wait for background queue to fully drain to all sinks
     logger.flush();
 
     return 0;

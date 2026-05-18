@@ -78,14 +78,14 @@ private:
         char message[512];
     };
 
-    // Configuration (guarded by configMutex)
+    // Configuration state (guarded by configMutex)
     std::unordered_map<std::string, std::string> logLevelColors;
     bool fileOutput;
     std::ofstream logFile;
     std::vector<std::string> filterLevels;
     std::vector<std::string> filterCategories;
 
-    // Synchronization & Threading
+    // Synchronization & Threading State
     std::mutex configMutex;
     std::mutex queueMutex;
     std::condition_variable cvNotEmpty;
@@ -101,7 +101,7 @@ private:
     std::atomic<bool> running{true};
     std::thread workerThread;
 
-    // Helper functions
+    // Internal helper functions
     void workerLoop();
     void processEntry(const LogEntry& entry);
     void fillTimestamp(char* buffer, size_t size);

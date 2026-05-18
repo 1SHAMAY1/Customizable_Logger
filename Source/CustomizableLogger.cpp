@@ -100,27 +100,27 @@ std::string CustomizableLogger::toJsonLine(const std::string& ts, const std::str
 
 void CustomizableLogger::log(const std::string& category, const std::string& message,
                              const std::string& level) {
-    // 1. Thread-safe filter check (using configMutex)
+    // 1. Level and category filter verification under configuration lock
     {
         std::lock_guard<std::mutex> lock(configMutex);
         if (!passesFilterNoLock(level, filterLevels)) return;
         if (!passesFilterNoLock(category, filterCategories)) return;
     }
 
-    // 2. Add log entry to pre-allocated ring buffer (using queueMutex)
+    // 2. Queue log entry inside the pre-allocated ring buffer
     {
         std::unique_lock<std::mutex> lock(queueMutex);
         
-        // Handle back-pressure: wait if the buffer is full
+        // Apply back-pressure if the ring buffer capacity is saturated
         cvNotFull.wait(lock, [this]() { return count < BUFFER_SIZE || !running; });
         if (!running) return;
 
         LogEntry& entry = ringBuffer[tail];
 
-        // Fill timestamp (zero dynamic allocation)
+        // Format and store high-resolution timestamp (zero dynamic allocations)
         fillTimestamp(entry.timestamp, sizeof(entry.timestamp));
 
-        // Copy strings safely to avoid dynamic allocation on the hot path
+        // Perform bounded string copies to avoid heap allocation on the hot path
         std::strncpy(entry.level, level.c_str(), sizeof(entry.level) - 1);
         entry.level[sizeof(entry.level) - 1] = '\0';
 
