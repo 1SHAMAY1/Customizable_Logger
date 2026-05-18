@@ -1,0 +1,10 @@
+^E:\RESUME\CUSTOMIZABLE_LOGGER\BUILD\CMAKEFILES\06F4690A9D8436F700CF1DFDE6F9885B\GENERATE.STAMP.RULE
+setlocal
+D:\CMake\bin\cmake.exe -SE:/Resume/Customizable_Logger -BE:/Resume/Customizable_Logger/Build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file E:/Resume/Customizable_Logger/Build/Customizable_Logger.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

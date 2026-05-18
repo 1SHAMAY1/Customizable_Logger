@@ -1,4 +1,6 @@
 #include "CustomizableLogger.hpp"
+#include <thread>
+#include <vector>
 
 int main() {
     // ✅ Initialize the logger with file output (writes to log.json)
@@ -11,25 +13,37 @@ int main() {
     logger.registerLevel("UI/CLICK", "\033[35m");     // Magenta
 
     // ✅ Log the start of the program
-    LOG_INFO(logger, "System", "Program started");
+    LOG_INFO(logger, "System", "Program started. Starting multi-threaded stress test...");
 
-    // --- Optional: Filter which logs are shown ---
-    // logger.setFilterLevels({"WARNING", "CRITICAL", "GAMEPLAY/AI"});
-    // logger.setFilterCategories({"GAMEPLAY/"});
-    //
-    // - If filter levels are set, only logs matching those levels will be shown
-    // - If filter categories are set, only logs with those category prefixes will be shown
-    // - Both filters are optional — leave empty to show all logs
+    // ✅ Spawn multiple threads writing concurrently to demonstrate thread safety and async non-blocking execution
+    std::vector<std::thread> threads;
+    for (int i = 0; i < 4; ++i) {
+        threads.emplace_back([&logger, i]() {
+            for (int j = 0; j < 10; ++j) {
+                std::string msg = "Async message " + std::to_string(j) + " from thread " + std::to_string(i);
+                if (j % 3 == 0) {
+                    LOG_CUSTOM(logger, "GAMEPLAY/AI", msg, "GAMEPLAY/AI");
+                } else if (j % 3 == 1) {
+                    LOG_WARNING(logger, "Physics", msg);
+                } else {
+                    LOG_INFO(logger, "Network", msg);
+                }
+            }
+        });
+    }
 
-    // --- Sample Logs (Uncomment to test) ---
-
-    // logger.log("System", "System booting...", "INFO");                  // Normal info log
-    // logger.log("GAMEPLAY/AI", "AI is thinking...", "GAMEPLAY/AI");     // Custom level & category
-    // logger.log("UI/CLICK", "Settings button clicked", "UI/CLICK");     // Custom level & category
-    // logger.log("System", "Segfault detected", "CRITICAL");             // Critical system alert
+    // Wait for all caller threads to finish submitting their log requests
+    for (auto& t : threads) {
+        if (t.joinable()) {
+            t.join();
+        }
+    }
 
     // ✅ Log the end of the program
-    LOG_INFO(logger, "System", "Program ended");
+    LOG_INFO(logger, "System", "All writer threads completed their log tasks. Flushing queue...");
+
+    // ✅ Block and wait for all logs to be written to console & file before exiting
+    logger.flush();
 
     return 0;
 }
