@@ -6,11 +6,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(Include)
 
-add_executable(Customizable_Logger
-    main.cpp
+add_library(Customizable_Logger STATIC
     Source/CustomizableLogger.cpp
 )
 
 set_target_properties(Customizable_Logger PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
